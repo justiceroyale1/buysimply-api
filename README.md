@@ -14,4 +14,4 @@ node app.js
 to start the server.
 
 ## Usage
-The server will listen on port *3000*. You can call the endpoints using postman.
+The server will listen on port *8000*. You can call the endpoints using postman.

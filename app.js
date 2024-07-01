@@ -1,12 +1,13 @@
 "use strict";
 
 var express = require("express");
+var config = require("./config");
 var routes = require("./routes");
 const verifyToken = require('./middleware/auth');
 const canDeleteLoan = require('./middleware/permissions');
 
 var app = (module.exports = express());
-var port = 3000;
+var port = config.port;
 
 // var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
