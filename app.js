@@ -3,6 +3,7 @@
 var express = require("express");
 var config = require("./config");
 var routes = require("./routes");
+var cors = require('cors');
 const verifyToken = require('./middleware/auth');
 const canDeleteLoan = require('./middleware/permissions');
 
@@ -11,7 +12,13 @@ var port = config.port;
 
 // var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-app.use(express.urlencoded({extended: false}));
+app.use(cors({
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": true,
+  "optionsSuccessStatus": 204
+}));
+app.use(express.json());
 app.delete("/loans/:loanId/delete", [verifyToken, canDeleteLoan], (req, res) => routes.deleteLoan(req, res));
 app.get("/loans/expired", verifyToken, (req, res) => routes.expiredLoans(req, res));
 app.get("/loans/:userEmail/get", verifyToken, (req, res) => routes.emailLoans(req, res));

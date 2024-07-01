@@ -10,14 +10,18 @@ var login = function (req, res) {
     var staff = data.loginStaff(email, password);
 
     if (!staff) {
-      res.status(401).json({ error: "Authentication failed" });
+      res.status(401).json({ email: "Invalid Credentials" });
+    } else {
+      var token = jwt.sign(
+        { userId: staff.id, role: staff.role },
+        config.secret,
+        {
+          expiresIn: "1h",
+        }
+      );
+
+      res.status(200).json({ token });
     }
-
-    var token = jwt.sign({ userId: staff.id, role: staff.role }, config.secret, {
-      expiresIn: "1h",
-    });
-
-    res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: "Login failed" });
   }
